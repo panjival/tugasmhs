@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <title>Input Nilai Mata Kuliah</title>
+  </head>
+  <body>
+    <h1>INPUT NILAI MATA KULIAH</h1>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >Input Nilai</button>
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Input Nilai</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/simpan-populasi" method="post">
+              <div class="form-group">
+                <label for="nama-mahasiswa" class="col-form-label">Nama Mahasiswa:</label>
+                <input type="text" class="form-control" id="nama-mahasiswa" required>
+              </div>
+              <div class="form-group">
+              <label for="mata-kuliah" class="col-form-label" required>Mata Kuliah:</label>
+              <select class="form-control" id="mata-kuliah">
+                <option>Front End</option>
+                <option>Back End</option>
+                <option>Mobile</option>
+              </select>
+              </div>
+              <div class="form-group">
+                <label for="nilai" class="col-form-label">Nilai:</label>
+                <input type="number" class="form-control" id="nilai" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button onclick="submitData" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table id="tabel_mahasiswa" class="table table-hover mt-4">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nama Mahasiswa</th>
+            <th scope="col">Mata Kuliah</th>
+            <th scope="col">Nilai</th>
+            <th scope="col">Index</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr id="tr">
+            <th scope="row">1</th>
+            <td>Abang Gud</td>
+            <td>Web</td>
+            <td>80</td>
+            <td>A</td>
+            <td>Lulus</td>
+            <td><button type="button" class="btn btn-warning">Warning</button> <button type="button" class="btn btn-danger">Danger</button></td>
+          </tr> -->
+         <!-- <tr class="table-danger">
+            <th scope="row">2</th>
+            <td>Wongo Xud</td>
+            <td>Web</td>
+            <td>40</td>
+            <td>D</td>
+            <td>Tidak Lulus</td>
+            <td><button type="button" class="btn btn-warning">Warning</button> <button type="button" class="btn btn-danger">Danger</button></td>
+          </tr> -->
+        </tbody>
+      </table>
+      <script>
+
+          function getData() {
+              fetch('http://localhost:3000/db').then(resp => resp.json()).then(resp => {
+                  const table = document.querySelector('#tabel_mahasiswa').getElementsByTagName('tbody')[0];
+                  
+                  //const data = JSON.parse(resp);
+                  table.innerHTML = '';
+                  
+                  resp.forEach(r => { 
+                      const row = table.insertRow();
+                      
+                      const cellNomor = row.insertCell();
+                      const cellNamaMahasiswa = row.insertCell();
+                      const cellMataKuliah = row.insertCell();
+                      const cellNilai = row.insertCell();
+                      const cellIndex = row.insertCell();
+                      const cellStatus = row.insertCell();
+                      const cellAction = row.insertCell();
+                      
+                      cellNomor.innerHTML = r.Id;
+                      cellNamaMahasiswa.innerHTML = r.NamaMahasiswa;
+                      cellMataKuliah.innerHTML = r.MataKuliah;
+                      cellNilai.innerHTML = r.Nilai;
+                      cellIndex.innerHTML = r.Idx;
+                      cellStatus.innerHTML = r.Status;
+                      cellAction.innerHTML = `
+                        <button type="button" class="btn btn-warning">Warning</button> <button type="button" class="btn btn-danger">Danger</button>
+                      `
+                      
+                    });
+                    
+                });
+            }
+            getData();
+
+      function nilaiStatus() {
+        var table = document.getElementById('tabel_mahasiswa');
+            for (var r = 1, n = table.rows.length; r < n; r++) {
+                // for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+                var status = table.rows[r].cells[5].innerHTML;
+                // }
+                  var w = (status= "Lulus") ? document.getElementById("tabel_mahasiswa").rows[r.this].className += "table-success" : document.getElementById("tabel_mahasiswa").rows[r].className += "table-danger";
+
+
+                  }
+                }
+                setTimeout(() => {
+                  nilaiStatus();
+                }, 5000);
+
+    //            ===========================================CREATE DATA=================================================
+
+    function submitData() {
+            const namaMahasiswa = document.querySelector('#nama-mahasiswa')
+            const mataKuliah = document.querySelector('#mata-kuliah')
+            const nilai = document.querySelector('#nilai')
+
+            fetch('/simpan-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    Id,
+                    NamaMahasiswa,
+                    MataKuliah,
+                    Nilai,
+                    Idx,
+                    Status,
+                }
+            }).then(resp => resp.json()).then(resp => {
+                alert('Data berhasil disimpan')
+            })
+
+        }
+
+  </script>
+
+
+      <!-- ================================================================================================================================ -->
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+    <!-- Option 2: jQuery, Popper.js, and Bootstrap JS
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
