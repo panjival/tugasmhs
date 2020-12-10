@@ -44,13 +44,13 @@ app.post('/simpan-data', function(req, res){
             INSERT INTO populasi.dbo.ari_panji 
             (NamaMahasiswa, MataKuliah, Nilai, Idx, Status)
             VALUES ('${namaMahasiswa}', '${mataKuliah}', '${nilai}', 
-            CASE WHEN Nilai < '20' THEN 'E'
-            WHEN Nilai < '40' THEN 'D'
-            WHEN Nilai < '60' THEN 'C'
-            WHEN Nilai < '80' THEN 'B'
-            WHEN Nilai < '100' THEN 'A'
+            CASE WHEN ${nilai} < '20' THEN 'E'
+            WHEN ${nilai} < '40' THEN 'D'
+            WHEN ${nilai} < '60' THEN 'C'
+            WHEN ${nilai} < '80' THEN 'B'
+            WHEN ${nilai} < '100' THEN 'A'
             END,
-            CASE WHEN Idx < '60' THEN 'Tidak Lulus'
+            CASE WHEN ${nilai} < '60' THEN 'Tidak Lulus'
            	ELSE 'Lulus' END);`
 
         return pool.query(sql)
@@ -63,11 +63,10 @@ app.post('/simpan-data', function(req, res){
 })
 
 app.delete('/hapus-data/:id',  (req, res) => {
-    const { id } = req.params
+    const { Id } = req.params
     new sql.ConnectionPool(DB_CONFIG).connect().then(pool => {
         const sql = `
-            Delete from populasi.dbo.ari_panji where id = '${id}'`
-
+            Delete from populasi.dbo.ari_panji where Id = '${Id}'`
         return pool.query(sql)
     }).then(result => {
         return res.send(result)
