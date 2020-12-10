@@ -97,7 +97,7 @@
                       cellIndex.innerHTML = r.Idx;
                       cellStatus.innerHTML = r.Status;
                       cellAction.innerHTML = `
-                        <button type="button" class="btn btn-warning">Update</button> <button type="button" onclick="hapus(id)" data-id={{Id}} class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-warning">Update</button> <button type="button" onclick="hapus(${r.Id})" class="btn btn-danger">Delete</button>
                       `
                       
                     });
@@ -147,12 +147,16 @@
       }
 
         function hapus(id) {
-          alert(id)
-            // fetch('/hapus-data/' + id, {
-            //     method: 'DELETE'
-            // }).then(resp => {
-            //     getData();
-            // });
+          // alert(id)
+          var confir = confirm("Apakah anda benar ingin menghapus?");
+          if (confir){
+            fetch('/hapus-data/' + id, {
+                method: 'DELETE'
+            }).then(resp => {
+                getData();
+            });
+            location.reload();
+          }
         }
 
   </script>
