@@ -46,7 +46,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button onclick="submitData()" class="btn btn-primary">Save</button>
+            <button onclick="submitData()" class="btn btn-primary" data-dismiss="modal">Save</button>
           </div>
         </div>
       </div>
@@ -78,7 +78,6 @@
                   
                   //const data = JSON.parse(resp);
                   table.innerHTML = '';
-                  
                   resp.forEach(r => { 
                       const row = table.insertRow();
                       
@@ -90,7 +89,8 @@
                       const cellStatus = row.insertCell();
                       const cellAction = row.insertCell();
                       
-                      cellNomor.innerHTML = r.Id;
+                      
+                      cellNomor.innerHTML = r.i;
                       cellNamaMahasiswa.innerHTML = r.NamaMahasiswa;
                       cellMataKuliah.innerHTML = r.MataKuliah;
                       cellNilai.innerHTML = r.Nilai;
