@@ -28,7 +28,7 @@
             <form action="/simpan-populasi" method="post">
               <div class="form-group">
                 <label for="nama-mahasiswa" class="col-form-label">Nama Mahasiswa:</label>
-                <input type="text" class="form-control" id="nama-mahasiswa" required>
+                <input type="text" class="form-control" id="nama-mahasiswa" required />
               </div>
               <div class="form-group">
               <label for="mata-kuliah" class="col-form-label" required>Mata Kuliah:</label>
@@ -40,7 +40,7 @@
               </div>
               <div class="form-group">
                 <label for="nilai" class="col-form-label">Nilai:</label>
-                <input type="number" class="form-control" id="nilai" required>
+                <input type="number" class="form-control" id="nilai" required />
               </div>
             </form>
           </div>
@@ -90,36 +90,27 @@
                       const cellAction = row.insertCell();
                       
                       
-                      cellNomor.innerHTML = r.i;
+                      cellNomor.innerHTML = r.Id;
                       cellNamaMahasiswa.innerHTML = r.NamaMahasiswa;
                       cellMataKuliah.innerHTML = r.MataKuliah;
                       cellNilai.innerHTML = r.Nilai;
                       cellIndex.innerHTML = r.Idx;
                       cellStatus.innerHTML = r.Status;
                       cellAction.innerHTML = `
-                        <button type="button" class="btn btn-warning">Update</button> <button type="button" onclick="hapus(${r.Id})" class="btn btn-danger">Delete</button>
-                      `
+                        <button type="button" class="btn btn-warning">Update</button> <button type="button" onclick="hapus(${r.Id})" class="btn btn-danger">Delete</button>`
+                    let warna = '';
+                    if (r.Nilai >= 60) {
+                        warna = 'table-success';
+                    } else {
+                        warna = 'table-danger';
+                    }
+                    row.className = warna;
                       
                     });
                     
                 });
             }
             getData();
-
-      function nilaiStatus() {
-        var table = document.getElementById('tabel_mahasiswa');
-            for (var r = 1, n = table.rows.length; r < n; r++) {
-                // for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
-                var status = table.rows[r].cells[5].innerHTML;
-                // }
-                  var w = (status= "Lulus") ? document.getElementById("tabel_mahasiswa").rows[r.this].className += "table-success" : document.getElementById("tabel_mahasiswa").rows[r].className += "table-danger";
-
-
-                  }
-                }
-                setTimeout(() => {
-                  nilaiStatus();
-                }, 5000);
 
     //            ===========================================CREATE DATA=================================================
 
@@ -158,6 +149,7 @@
             location.reload();
           }
         }
+
 
   </script>
 
